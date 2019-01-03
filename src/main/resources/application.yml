@@ -1,0 +1,9 @@
+server:
+  port: 8082
+name: 你好
+age: 32
+content: "name:${name},age=${age}"  # 不常用
+
+persion:
+  name: 你好
+  age: 25
