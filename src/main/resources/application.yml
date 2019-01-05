@@ -1,9 +1,22 @@
 server:
   port: 8082
-name: 你好
-age: 32
-content: "name:${name},age=${age}"  # 不常用
-
-persion:
-  name: 你好
-  age: 25
+#name: 你好
+#age: 32
+#content: "name:${name},age=${age}"  # 不常用
+#
+#persion:
+#  name: 你好
+#  age: 25
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
