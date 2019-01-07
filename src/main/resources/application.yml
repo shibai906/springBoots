@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8080
 #name: 你好
 #age: 32
 #content: "name:${name},age=${age}"  # 不常用
@@ -14,9 +14,87 @@ spring:
       suffix: .jsp
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create # create,每次运行该程序，没有表格会新建表格，表内数据会清空  create-drop，每次程序结束时都会清空表    update，每次运行程序，没有表格会新建表格，表内有数据不会清空，只会更新    valiate，运行程序会校验数据与数据库的字段类型是否相同，不同会报错
+# 以下是配置单数据源
+#  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=GMT%2B8
+#    username: root
+#    password: 123456
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#custom:
+#  datasource:
+#    names: primary
+#    primary:
+#      url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=GMT%2B8
+#      username: root
+#      password: 123456
+#      driver-class: com.mysql.cj.jdbc.Driver
+#  datasource.secondray:
+#      url: jdbc:mysql://127.0.0.1:3306/tests?serverTimezone=GMT%2B8
+#      username: root
+#      password: 123456
+
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=GMT%2B8
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    #使用druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+
+# 自定义的主数据源配置信息
+test:
+  datasource:
+    #druid相关配置
+    druid:
+      #监控统计拦截的filters
+      filters: stat
+      driverClassName: com.mysql.cj.jdbc.Driver
+      #配置基本属性
+      url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=GMT%2B8
+      username: root
+      password: 123456
+      #配置初始化大小/最小/最大
+      initialSize: 1
+      minIdle: 1
+      maxActive: 20
+      #获取连接等待超时时间
+      maxWait: 60000
+      #间隔多久进行一次检测，检测需要关闭的空闲连接
+      timeBetweenEvictionRunsMillis: 60000
+      #一个连接在池中最小生存的时间
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+      poolPreparedStatements: false
+      maxPoolPreparedStatementPerConnectionSize: 20
+
+# 自定义的从数据源配置信息
+test1:
+  datasource:
+    #druid相关配置
+    druid:
+      #监控统计拦截的filters
+      filters: stat
+      driverClassName: com.mysql.cj.jdbc.Driver
+      #配置基本属性
+      url: jdbc:mysql://127.0.0.1:3306/test1?serverTimezone=GMT%2B8
+      username: root
+      password: 123456
+      #配置初始化大小/最小/最大
+      initialSize: 1
+      minIdle: 1
+      maxActive: 20
+      #获取连接等待超时时间
+      maxWait: 60000
+      #间隔多久进行一次检测，检测需要关闭的空闲连接
+      timeBetweenEvictionRunsMillis: 60000
+      #一个连接在池中最小生存的时间
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+      poolPreparedStatements: false
+      maxPoolPreparedStatementPerConnectionSize: 20

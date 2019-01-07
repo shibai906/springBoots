@@ -2,11 +2,13 @@ package com.zhao.springboot.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zhao.springboot.dao.TestMapper;
-import com.zhao.springboot.entity.Persion;
+import com.zhao.json.JSONResult;
+import com.zhao.springboot.entity.Student;
 import com.zhao.springboot.entity.Test;
+import com.zhao.springboot.service.Test1;
+import com.zhao.springboot.service.TestService;
+import org.eclipse.jdt.internal.compiler.ast.Invocation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +23,10 @@ import java.util.List;
 public class HelloController {
 
     @Autowired
-    TestMapper testMapper;
+    TestService testService;
 
+    @Autowired
+    Test1 test1;
 /*
     @Value("${name}")
     private String name;
@@ -52,10 +56,10 @@ public class HelloController {
     }
 */
 
-    @RequestMapping(value = { "test" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
+    @RequestMapping(value = { "getAllTest" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public Object test() {
-        List<Test> list = testMapper.findAll();
+    public Object getAllTest() {
+        List<Test> list = testService.getAllTest();
         JSONArray jsonArray = new JSONArray();
         for(Test test : list) {
             JSONObject jsonObject = new JSONObject() ;
@@ -63,16 +67,57 @@ public class HelloController {
             jsonObject.put("username",test.getUsername());
             jsonArray.add(jsonObject);
         }
+        return JSONResult.success(jsonArray);
+    }
 
+    @RequestMapping(value = { "insertTest" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Object insertTest(Test test) {
+        long num = testService.insert(test);
+        return JSONResult.success(num);
+    }
 
-        return jsonArray;
+    @RequestMapping(value = { "update" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Object updateTest(Test test) {
+        testService.update(test);
+        return JSONResult.success();
+    }
+
+    @RequestMapping(value = { "delete" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Object deleteTest(long id) {
+        testService.delete(id);
+        return JSONResult.success();
     }
 
     @RequestMapping(value = { "/api/v1/test" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public String hello(Model model) {
+    public Object hello(Model model) {
         model.addAttribute("now", DateFormat.getDateTimeInstance().format(new Date()));
-        return "hello";
+        return JSONResult.success();
     }
+
+    @RequestMapping(value = { "insert" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Object insert( Student student) {
+        test1.insert(student);
+        return JSONResult.success();
+    }
+
+    @RequestMapping(value = { "findAll" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Object findAll( Student student) {
+        List<Student> list = test1.findAll();
+        JSONArray jsonArray = new JSONArray();
+        for(Student test : list) {
+            JSONObject jsonObject = new JSONObject() ;
+            jsonObject.put("id",test.getId());
+            jsonObject.put("username",test.getName());
+            jsonArray.add(jsonObject);
+        }
+        return JSONResult.success(jsonArray);
+    }
+
 
 }
