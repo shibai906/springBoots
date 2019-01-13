@@ -98,3 +98,31 @@ test1:
       #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
       poolPreparedStatements: false
       maxPoolPreparedStatementPerConnectionSize: 20
+
+# 默认情况下，日志文件的大小达到10MB时会切分一次，产生新的日志文件，默认级别为：ERROR、WARN、INFO
+# logging.level: 日志级别控制前缀，*为包名或Logger名
+# LEVEL：选项TRACE、DEBUG、INFO、WARN、ERROR、FATAL、OFF
+# logging.level.com.zhao=DEBUG:com.zhao包下所有class文件是以DEBUG级别输出
+# logging.level.root=WARN:root日志以WARN级别输出
+# 根据不同的日志系统，可以按如下规则组织配置文件名，就能被正确加载：
+# Logback： logback-spring.xml, logback-spring.groovy, logback.xml, logback.groovy
+# Log4j： log4j-spring.properties, log4j-spring.xml, log4j.properties, log4j.xml
+# Log4j2： log4j2-spring.xml, log4j2.xml
+# JDK (Java Util Logging)： logging.properties
+# 官方推荐优先使用带有-spring的文件名作为你的日志配置。默认命名规则，并且放在src/main/resources下面即可
+# 可以通过logging.config属性指定自定义的名称。
+
+# 根节点包含属性
+# scan:当此属性设置为true时，配置文件如果发生改变，将会重新加载，默认值为true
+# scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当 scan 为 true 时，此属性生效。默认的时间间隔为1分钟
+# debug:当此属性设置为 true 时，将打印出 logback 内部日志信息，实时查看 logback 运行状态。默认值为 false
+
+debug: true
+logging:
+  level:
+    root: debug
+  path: D:/logs/springBoots/  # 如果只配置logging.path,在/var/log文件夹下生成spring.log
+  file: D:/logs/springBoots/springboot.log      # 这边既可以是相对路径，也可以是绝对路径，如果只配这个，只会在当前路径下生成xxx.log日志文件。
+
+
+

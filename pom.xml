@@ -92,6 +92,12 @@
             <version>1.16.10</version>
         </dependency>
 
+        <!-- 配置日志jar包，它里面包含了重要的日志包spring-boot-starter-logging -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

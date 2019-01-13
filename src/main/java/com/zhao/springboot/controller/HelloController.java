@@ -7,7 +7,8 @@ import com.zhao.springboot.entity.Student;
 import com.zhao.springboot.entity.Test;
 import com.zhao.springboot.service.Test1;
 import com.zhao.springboot.service.TestService;
-import org.eclipse.jdt.internal.compiler.ast.Invocation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,11 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
+
 @RestController
 public class HelloController {
+
+    private final Logger logger = LoggerFactory.getLogger(HelloController.class);
 
     @Autowired
     TestService testService;
@@ -57,9 +61,9 @@ public class HelloController {
 */
 
     @RequestMapping(value = { "getAllTest" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
-    @ResponseBody
     public Object getAllTest() {
         List<Test> list = testService.getAllTest();
+        logger.info("list = {}",list);
         JSONArray jsonArray = new JSONArray();
         for(Test test : list) {
             JSONObject jsonObject = new JSONObject() ;
@@ -71,42 +75,36 @@ public class HelloController {
     }
 
     @RequestMapping(value = { "insertTest" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
-    @ResponseBody
     public Object insertTest(Test test) {
         long num = testService.insert(test);
         return JSONResult.success(num);
     }
 
     @RequestMapping(value = { "update" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
-    @ResponseBody
     public Object updateTest(Test test) {
         testService.update(test);
         return JSONResult.success();
     }
 
     @RequestMapping(value = { "delete" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
-    @ResponseBody
     public Object deleteTest(long id) {
         testService.delete(id);
         return JSONResult.success();
     }
 
     @RequestMapping(value = { "/api/v1/test" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
-    @ResponseBody
     public Object hello(Model model) {
         model.addAttribute("now", DateFormat.getDateTimeInstance().format(new Date()));
         return JSONResult.success();
     }
 
     @RequestMapping(value = { "insert" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
-    @ResponseBody
     public Object insert( Student student) {
         test1.insert(student);
         return JSONResult.success();
     }
 
     @RequestMapping(value = { "findAll" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
-    @ResponseBody
     public Object findAll( Student student) {
         List<Student> list = test1.findAll();
         JSONArray jsonArray = new JSONArray();
