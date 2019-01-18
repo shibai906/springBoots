@@ -117,12 +117,17 @@ test1:
 # scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当 scan 为 true 时，此属性生效。默认的时间间隔为1分钟
 # debug:当此属性设置为 true 时，将打印出 logback 内部日志信息，实时查看 logback 运行状态。默认值为 false
 
-debug: true
+
 logging:
-  level:
-    root: debug
-  path: D:/logs/springBoots/  # 如果只配置logging.path,在/var/log文件夹下生成spring.log
-  file: D:/logs/springBoots/springboot.log      # 这边既可以是相对路径，也可以是绝对路径，如果只配这个，只会在当前路径下生成xxx.log日志文件。
+  config: classpath:logback-spring.xml
+  path: D:/logs/springBoots
+
+#debug: true
+#logging:
+#  level:
+#    root: debug
+#  path: D:/logs/springBoots/  # 如果只配置logging.path,在/var/log文件夹下生成spring.log
+#  file: D:/logs/springBoots/springboot.log      # 这边既可以是相对路径，也可以是绝对路径，如果只配这个，只会在当前路径下生成xxx.log日志文件。
 
 
 
