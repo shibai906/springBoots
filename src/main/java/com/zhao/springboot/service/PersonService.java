@@ -4,8 +4,8 @@ import com.zhao.springboot.dao.test.PersonMapper;
 import com.zhao.springboot.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,20 +14,15 @@ public class PersonService {
     @Autowired
     PersonMapper personMapper;
 
+    @Transactional(value = "testTransactionManager" , rollbackFor=Exception.class)
+    public long insert(Person person) throws Exception  {
 
-    public long insert(Person person)  {
-        try {
             personMapper.insert(person);
             if(person.getName().equals("zhao")) {
                 throw new Exception("错误");
             }
 
             return personMapper.insert(person);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return 0;
     }
 
     public void update(Person person) {

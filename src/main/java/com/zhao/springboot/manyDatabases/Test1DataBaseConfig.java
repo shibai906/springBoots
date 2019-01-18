@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -95,5 +96,13 @@ public class Test1DataBaseConfig {
 
         return sessionFactory.getObject();
     }
+
+
+    // 配置事务，注意，异常必须抛出来，要不然事务不管用
+    @Bean(name="test1TransactionManager")
+    public PlatformTransactionManager test1TransactionManager(@Qualifier("testDataSource")DataSource prodDataSource) {
+        return new DataSourceTransactionManager(prodDataSource);
+    }
+
 
 }

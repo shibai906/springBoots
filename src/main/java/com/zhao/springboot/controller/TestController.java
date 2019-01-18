@@ -25,7 +25,7 @@ public class TestController {
     PersonService personService;
 
     @RequestMapping(value = { "insert" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
-    public Object insert(Person person) {
+    public Object insert(Person person) throws Exception {
         long id = personService.insert(person);
         return JSONResult.success(id);
     }
