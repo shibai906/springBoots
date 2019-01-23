@@ -1,0 +1,4 @@
+@Primary
+ 值的是在众多bean中，优先使用这个注解的bean；
+@Qualifire
+ 让Spring可以按照Bean名称进入注入@Autowired

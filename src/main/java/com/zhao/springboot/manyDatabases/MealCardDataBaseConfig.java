@@ -18,12 +18,11 @@ import java.sql.SQLException;
 
 @Data
 @Configuration
-// 前缀为primary.datasource.druid的配置信息
-@ConfigurationProperties(prefix = "test.datasource.druid")
-@MapperScan(basePackages = TestDataBaseConfig.PACKAGE, sqlSessionFactoryRef = "testSqlSessionFactory")
-public class TestDataBaseConfig  {
+@ConfigurationProperties(prefix = "tests.datasource.druid")
+@MapperScan(basePackages = MealCardDataBaseConfig.PACKAGE, sqlSessionFactoryRef = "meadlCardSqlSessionFactory")
+public class MealCardDataBaseConfig {
 
-    static final String PACKAGE = "com.zhao.springboot.dao.test" ;
+    static final String PACKAGE = "com.zhao.springboot.dao.mealCard" ;
 
     private String filters;
     private String url;
@@ -44,10 +43,10 @@ public class TestDataBaseConfig  {
     private int maxPoolPreparedStatementPerConnectionSize;
 
 
-//    @Primary
-    @Bean(name = "testDataSource")
-    @Qualifier("testDataSource")
-    public DataSource testDataSource() throws SQLException {
+    @Primary
+    @Bean(name = "meadlCardDataSource")
+    @Qualifier("meadlCardDataSource")
+    public DataSource meadlCardDataSource() throws SQLException {
         DruidDataSource druid = new DruidDataSource();
         // 监控统计拦截的filters
         druid.setFilters(filters);
@@ -82,20 +81,21 @@ public class TestDataBaseConfig  {
         // 打开PSCache时，指定每个连接上PSCache的大小
         druid.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
 
+
         return druid;
     }
 
     // 创建该数据源的事务管理
-//    @Primary
-    @Bean(name = "testTransactionManager")
-    public DataSourceTransactionManager testTransactionManager() throws SQLException {
-        return new DataSourceTransactionManager(testDataSource());
+    @Primary
+    @Bean(name = "meadlCardTransactionManager")
+    public DataSourceTransactionManager meadlCardTransactionManager() throws SQLException {
+        return new DataSourceTransactionManager(meadlCardDataSource());
     }
 
     // 创建Mybatis的连接会话工厂实例
-//    @Primary
-    @Bean(name = "testSqlSessionFactory")
-    public SqlSessionFactory testSqlSessionFactory(@Qualifier("testDataSource") DataSource primaryDataSource) throws Exception {
+    @Primary
+    @Bean(name = "meadlCardSqlSessionFactory")
+    public SqlSessionFactory meadlCardSqlSessionFactory(@Qualifier("meadlCardDataSource") DataSource primaryDataSource) throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(primaryDataSource);  // 设置数据源bean
 //        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
@@ -106,8 +106,8 @@ public class TestDataBaseConfig  {
 
 
     // 配置事务，注意，异常必须抛出来，要不然事务不管用
-    @Bean(name="testTransactionManager")
-    public PlatformTransactionManager testTransactionManager(@Qualifier("testDataSource")DataSource prodDataSource) {
+    @Bean(name="meadlCardTransactionManager")
+    public PlatformTransactionManager testTransactionManager(@Qualifier("meadlCardDataSource")DataSource prodDataSource) {
         return new DataSourceTransactionManager(prodDataSource);
     }
 

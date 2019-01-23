@@ -42,8 +42,9 @@ public class Test1DataBaseConfig {
     private boolean poolPreparedStatements;
     private int maxPoolPreparedStatementPerConnectionSize;
 
-
+//    @Primary
     @Bean(name = "test1DataSource")
+    @Qualifier("test1DataSource")
     public DataSource test1DataSource() throws SQLException {
         DruidDataSource druid = new DruidDataSource();
         // 监控统计拦截的filters
