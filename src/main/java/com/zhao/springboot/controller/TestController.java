@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhao.json.JSONResult;
 import com.zhao.springboot.entity.Person;
 import com.zhao.springboot.service.PersonService;
+import com.zhao.springboot.service.Redis.RedisService;
 import com.zhao.springboot.service.TestService;
+import com.zhao.springboot.utils.RedisCacheConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,10 @@ import java.util.List;
 public class TestController {
 
     private final Logger logger = LoggerFactory.getLogger(HelloController.class);
+
+
+    @Autowired
+    com.zhao.springboot.utils.RedisCacheConfig RedisCacheConfig;
 
     @Autowired
     PersonService personService;
@@ -60,6 +66,18 @@ public class TestController {
         personService.delete(id);
         return JSONResult.success();
 
+    }
+
+    @RequestMapping(value = { "set" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
+    public Object set(String key,String value) {
+        RedisCacheConfig.set(key,value);
+        return JSONResult.success();
+    }
+
+    @RequestMapping(value = { "get" }, method = { RequestMethod.POST,RequestMethod.GET }, produces="application/json;charset=UTF-8")
+    public Object get(String key) {
+        String value = (String) RedisCacheConfig.get(key);
+        return JSONResult.success(value);
     }
 
 

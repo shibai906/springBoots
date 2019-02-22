@@ -15,6 +15,28 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create # create,每次运行该程序，没有表格会新建表格，表内数据会清空  create-drop，每次程序结束时都会清空表    update，每次运行程序，没有表格会新建表格，表内有数据不会清空，只会更新    valiate，运行程序会校验数据与数据库的字段类型是否相同，不同会报错
+
+  # redis 配置
+
+  # REDIS (RedisProperties)
+  # Redis数据库索引（默认为0）
+  redis:
+    database: 0
+    host: 127.0.0.1
+    password: 12345
+    port: 6379
+    timeout: 3000
+    pool:
+      # 连接池最大连接数（使用负值表示没有限制）
+      max-active: 8
+      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: -1
+      # 连接池中的最大空闲连接
+      max-idle: 8
+      # 连接池中的最小空闲连接
+      min-idle: 0
+
+
 # 以下是配置单数据源
 #  datasource:
 #    url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=GMT%2B8
@@ -154,6 +176,8 @@ logging:
 #    root: debug
 #  path: D:/logs/springBoots/  # 如果只配置logging.path,在/var/log文件夹下生成spring.log
 #  file: D:/logs/springBoots/springboot.log      # 这边既可以是相对路径，也可以是绝对路径，如果只配这个，只会在当前路径下生成xxx.log日志文件。
+
+
 
 
 
